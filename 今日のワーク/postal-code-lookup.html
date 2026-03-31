@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>郵便番号検索</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #1a202c;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #718096;
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 6px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4299e1;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #4299e1;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: #3182ce;
+    }
+
+    button:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    .result {
+      display: none;
+      background: #ebf8ff;
+      border: 1px solid #bee3f8;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-title {
+      font-size: 0.8rem;
+      color: #2b6cb0;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .address {
+      font-size: 1.2rem;
+      color: #1a202c;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .address-sub {
+      font-size: 0.875rem;
+      color: #4a5568;
+      margin-top: 8px;
+    }
+
+    .error {
+      display: none;
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 8px;
+      padding: 16px 20px;
+      color: #c53030;
+      font-size: 0.9rem;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #718096;
+      font-size: 0.9rem;
+      padding: 16px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #a0aec0;
+      margin-top: 6px;
+    }
+
+    .multiple-hint {
+      font-size: 0.8rem;
+      color: #2b6cb0;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>郵便番号検索</h1>
+    <p class="subtitle">郵便番号から住所を検索します</p>
+
+    <label for="zipcode">郵便番号</label>
+    <div class="input-row">
+      <input
+        type="text"
+        id="zipcode"
+        placeholder="例: 1000001"
+        maxlength="8"
+        inputmode="numeric"
+      >
+      <button id="searchBtn" onclick="search()">検索</button>
+    </div>
+    <p class="hint">ハイフンあり・なし、どちらでも入力できます（例: 100-0001 または 1000001）</p>
+
+    <div class="loading" id="loading">検索中...</div>
+    <div class="error" id="error"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById('zipcode');
+
+    // Enterキーで検索
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') search();
+    });
+
+    async function search() {
+      const raw = input.value.trim();
+      const zipcode = raw.replace(/-/g, '');
+
+      const errorEl = document.getElementById('error');
+      const resultEl = document.getElementById('result');
+      const loadingEl = document.getElementById('loading');
+      const btn = document.getElementById('searchBtn');
+
+      // リセット
+      errorEl.className = 'error';
+      resultEl.className = 'result';
+      loadingEl.className = 'loading';
+
+      if (!/^\d{7}$/.test(zipcode)) {
+        errorEl.textContent = '郵便番号は7桁の数字で入力してください。';
+        errorEl.className = 'error show';
+        return;
+      }
+
+      btn.disabled = true;
+      loadingEl.className = 'loading show';
+
+      try {
+        const res = await fetch(
+          `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`
+        );
+        const data = await res.json();
+
+        loadingEl.className = 'loading';
+        btn.disabled = false;
+
+        if (data.status !== 200) {
+          errorEl.textContent = `エラーが発生しました: ${data.message || '不明なエラー'}`;
+          errorEl.className = 'error show';
+          return;
+        }
+
+        if (!data.results) {
+          errorEl.textContent = '該当する住所が見つかりませんでした。';
+          errorEl.className = 'error show';
+          return;
+        }
+
+        const html = data.results.map((r, i) => `
+          <div style="${i > 0 ? 'margin-top:16px; padding-top:16px; border-top:1px solid #bee3f8;' : ''}">
+            <div class="address">
+              〒${r.zipcode.slice(0,3)}-${r.zipcode.slice(3)}
+              ${r.address1}${r.address2}${r.address3}
+            </div>
+            <div class="address-sub">
+              ${r.prefcode ? `都道府県コード: ${r.prefcode}` : ''}
+              ${r.kana1 || r.kana2 || r.kana3
+                ? `&nbsp;|&nbsp; 読み: ${r.kana1}${r.kana2}${r.kana3}`
+                : ''}
+            </div>
+          </div>
+        `).join('');
+
+        resultEl.innerHTML = `
+          <div class="result-title">検索結果</div>
+          ${html}
+          ${data.results.length > 1
+            ? `<p class="multiple-hint">※ ${data.results.length}件の住所が見つかりました。</p>`
+            : ''}
+        `;
+        resultEl.className = 'result show';
+
+      } catch (err) {
+        loadingEl.className = 'loading';
+        btn.disabled = false;
+        errorEl.textContent = '通信エラーが発生しました。インターネット接続をご確認ください。';
+        errorEl.className = 'error show';
+      }
+    }
+  </script>
+</body>
+</html>
