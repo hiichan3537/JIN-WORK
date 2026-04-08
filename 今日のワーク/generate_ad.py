@@ -8,6 +8,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.utils import ImageReader
 
 # ── Font registration ──────────────────────────────────────────────────────────
 GOTHIC_PATH  = "/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf"
@@ -293,9 +294,15 @@ for idx, card_data in enumerate(GRID_CARDS):
     # visual area (dark, ~35% width)
     VIS_W = int(GRID_CARD_W * 0.35)
     VIS_X = gx + ACCENT_W
-    rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.12, 0.11, 0.10))
-    text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 - 3,
-                  label, "IPAGothic", 6, GOLD)
+    if idx == 1:
+        # きんぴらごぼう チルド — 実写画像を使用
+        img_path = "/home/user/JIN-WORK/今日のワーク/きんぴらキンパ2.png"
+        c.drawImage(img_path, VIS_X, gy, VIS_W, GRID_CARD_H,
+                    preserveAspectRatio=False, mask='auto')
+    else:
+        rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.12, 0.11, 0.10))
+        text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 - 3,
+                      label, "IPAGothic", 6, GOLD)
 
     # info area
     IX = VIS_X + VIS_W + 5
