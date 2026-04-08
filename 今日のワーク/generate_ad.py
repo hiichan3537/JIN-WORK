@@ -291,15 +291,29 @@ for idx, card_data in enumerate(GRID_CARDS):
     ACCENT_W = 4
     rect_filled(c, gx, gy, ACCENT_W, GRID_CARD_H, accent_col)
 
-    # visual area (dark, ~35% width)
-    VIS_W = int(GRID_CARD_W * 0.35)
+    # visual area
     VIS_X = gx + ACCENT_W
     if idx == 1:
-        # きんぴらごぼう チルド — 実写画像を使用
-        img_path = "/home/user/JIN-WORK/今日のワーク/きんぴらキンパ2.png"
-        c.drawImage(img_path, VIS_X, gy, VIS_W, GRID_CARD_H,
-                    preserveAspectRatio=False, mask='auto')
+        # きんぴらごぼう チルド — 4枚の画像を横並びで表示（エリアを52%に拡張）
+        VIS_W = int(GRID_CARD_W * 0.52)
+        KINPIRA_IMGS = [
+            "/home/user/JIN-WORK/今日のワーク/きんぴらキンパ2.png",
+            "/home/user/JIN-WORK/今日のワーク/きんぴら.png",
+            "/home/user/JIN-WORK/今日のワーク/きんぴらのり弁.png",
+            "/home/user/JIN-WORK/今日のワーク/きんぴら肉巻き.png",
+        ]
+        each_w = VIS_W / len(KINPIRA_IMGS)
+        for i, img_path in enumerate(KINPIRA_IMGS):
+            c.drawImage(img_path, VIS_X + i * each_w, gy, each_w, GRID_CARD_H,
+                        preserveAspectRatio=False, mask='auto')
+            # 画像間に細い区切り線
+            if i > 0:
+                hline(c, VIS_X + i * each_w, gy, 0, (1, 1, 1), lw=0.5)
+                c.setStrokeColorRGB(1, 1, 1)
+                c.setLineWidth(0.5)
+                c.line(VIS_X + i * each_w, gy, VIS_X + i * each_w, gy + GRID_CARD_H)
     else:
+        VIS_W = int(GRID_CARD_W * 0.35)
         rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.12, 0.11, 0.10))
         text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 - 3,
                       label, "IPAGothic", 6, GOLD)
