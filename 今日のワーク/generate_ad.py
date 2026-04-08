@@ -157,205 +157,217 @@ for i, (icon, title, desc) in enumerate(DIFF_COLS):
     text_centered(c, cx, DIFF_BOT + 10, desc, "IPAGothic", 6.5, GRAY)
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 4. MIDDLE SECTION
+# 4. MIDDLE SECTION  ─ 全商品がページ全体を余白なく埋める
 # ══════════════════════════════════════════════════════════════════════════════
 MID_TOP = DIFF_BOT        # 620
-MID_BOT = 170             # will end where key-points band starts
-MID_H   = MID_TOP - MID_BOT
+MID_BOT = 170             # KEY POINTS BAND上端（KP_BOT=100 + KP_H=70）
+MID_H   = MID_TOP - MID_BOT  # 450
 
 rect_filled(c, 0, MID_BOT, PAGE_W, MID_H, WHITE)
 
-PAD = 16
-cur_y = MID_TOP - 10
+# ── セクションヘッダー ──────────────────────────────────────────────────────
+HDR_TOP_PAD = 7
+HDR_LABEL_H = 11
+HDR_GAP     = 3
+HDR_TITLE_H = 13
+HDR_BOT_GAP = 5
+HDR_TOTAL   = HDR_TOP_PAD + HDR_LABEL_H + HDR_GAP + HDR_TITLE_H + HDR_BOT_GAP  # 39
 
-# section label
+cur_y = MID_TOP - HDR_TOP_PAD
 text_centered(c, PAGE_W/2, cur_y, "FEATURED LINEUP — 今月の注力５品",
               "IPAGothic", 7, GOLD)
-cur_y -= 14
-
-# section title
+cur_y -= (HDR_LABEL_H + HDR_GAP)
 text_centered(c, PAGE_W/2, cur_y,
               "どの商品も、\u201c置いた理由\u201dが語れる",
-              "IPAMincho", 13, BLACK_BG)
-cur_y -= 10
+              "IPAMincho", 12, BLACK_BG)
+cur_y -= (HDR_TITLE_H + HDR_BOT_GAP)  # cur_y = MID_TOP - HDR_TOTAL
 
-# ── Featured product card (黒メンマ, full width) ───────────────────────────────
-CARD_H   = 92
-CARD_Y   = cur_y - CARD_H
-CARD_X   = L_MARGIN
-CARD_W   = CONTENT_W
+# ── カード高さを動的計算（余白なしでページを埋める） ────────────────────────
+CARD_AREA_H  = cur_y - MID_BOT          # カード全体に使える高さ
+GAP          = 5                         # カード間ギャップ
+# featured 1枚 + grid 2行 = 3段、ギャップは2つ（featured→row1, row1→row2）
+FEATURED_H   = int((CARD_AREA_H - 2 * GAP) * 0.44)
+GRID_ROW_H   = (CARD_AREA_H - 2 * GAP - FEATURED_H) // 2
+GRID_CARD_W  = (CONTENT_W - 6) / 2
 
-# card background
-rect_filled(c, CARD_X, CARD_Y, CARD_W, CARD_H, (0.96, 0.96, 0.95))
-rect_stroked(c, CARD_X, CARD_Y, CARD_W, CARD_H, (0.85, 0.82, 0.75), line_width=0.5)
+# ── フィーチャードカード（極太メンマ、全幅） ────────────────────────────────
+CARD_Y = cur_y - FEATURED_H
+CARD_X = L_MARGIN
+CARD_W = CONTENT_W
 
-LEFT_W  = int(CARD_W * 0.36)
-RIGHT_X = CARD_X + LEFT_W + 6
-RIGHT_W = CARD_W - LEFT_W - 6
+rect_filled(c, CARD_X, CARD_Y, CARD_W, FEATURED_H, (0.96, 0.96, 0.95))
+rect_stroked(c, CARD_X, CARD_Y, CARD_W, FEATURED_H, (0.85, 0.82, 0.75), line_width=0.5)
 
-# left black area
-rect_filled(c, CARD_X, CARD_Y, LEFT_W, CARD_H, BLACK_BG)
-text_centered(c, CARD_X + LEFT_W/2, CARD_Y + CARD_H/2 + 6,
-              "味付けメンマ（黒）", "IPAMincho", 9, GOLD)
-# badge
-BADGE_H = 14
-rect_filled(c, CARD_X, CARD_Y, LEFT_W, BADGE_H, GOLD)
-text_centered(c, CARD_X + LEFT_W/2, CARD_Y + 3,
-              "1200g  IMPACT ITEM", "IPAGothic", 7, BLACK_BG)
+F_LEFT_W = int(CARD_W * 0.38)
+F_RIGHT_X = CARD_X + F_LEFT_W + 8
 
-# right info
-INFO_X = RIGHT_X
-IY = CARD_Y + CARD_H - 10
-# NO label
-text(c, INFO_X, IY, "NO.05 — 注目商材", "IPAGothic", 7, GOLD)
-IY -= 13
-text(c, INFO_X, IY, "味付けメンマ（黒）", "IPAMincho", 13, BLACK_BG)
-IY -= 10
-text(c, INFO_X, IY, "1200g ／ 業務・まとめ買い向け", "IPAGothic", 8, GRAY)
-IY -= 10
-# tagline with left gold bar
-rect_filled(c, INFO_X, IY - 1, 2, 8, GOLD)
-text(c, INFO_X + 5, IY, "見た瞬間に手が伸びる── \"視覚で売れる\"インパクト商品",
-     "IPAMincho", 8, BLACK_BG)
+# 左ビジュアルエリア（黒）
+rect_filled(c, CARD_X, CARD_Y, F_LEFT_W, FEATURED_H, BLACK_BG)
+# タイトル・説明を縦中央に配置
+VCY = CARD_Y + FEATURED_H / 2
+text_centered(c, CARD_X + F_LEFT_W/2, VCY + 20,
+              "極太メンマ", "IPAMincho", 18, GOLD)
+text_centered(c, CARD_X + F_LEFT_W/2, VCY + 5,
+              "300g", "IPAGothic", 9, GOLD_LIGHT)
+text_centered(c, CARD_X + F_LEFT_W/2, VCY - 10,
+              "─── GOKUFUTO MENMA ───", "IPAGothic", 6.5, (0.55, 0.45, 0.20))
+# ゴールドのアクセントライン
+hline(c, CARD_X + 14, VCY + 28, F_LEFT_W - 28, GOLD, lw=0.8)
+# メイン商品バッジ
+BADGE_H = 16
+rect_filled(c, CARD_X, CARD_Y + FEATURED_H - BADGE_H, F_LEFT_W, BADGE_H, GOLD)
+text_centered(c, CARD_X + F_LEFT_W/2, CARD_Y + FEATURED_H - BADGE_H + 4,
+              "★ メイン商品", "IPAGothic", 8, BLACK_BG)
+
+# 右情報エリア
+INFO_X = F_RIGHT_X
+IY = CARD_Y + FEATURED_H - 12
+text(c, INFO_X, IY, "NO.01 — メイン商品", "IPAGothic", 7.5, GOLD)
+IY -= 16
+text(c, INFO_X, IY, "極太メンマ", "IPAMincho", 18, BLACK_BG)
 IY -= 12
-# tags
-TAGS_MAIN = [("圧倒的インパクト", True), ("大容量", True), ("ラーメントッピング", False), ("おつまみ", False)]
-TX = INFO_X
-for tag_txt, bordered in TAGS_MAIN:
-    c.setFont("IPAGothic", 6.5)
-    tw = c.stringWidth(tag_txt, "IPAGothic", 6.5) + 6
-    TH = 10
-    if bordered:
-        rect_stroked(c, TX, IY - 1, tw, TH, GOLD, line_width=0.7)
-        text(c, TX + 3, IY + 1, tag_txt, "IPAGothic", 6.5, GOLD)
-    else:
-        rect_filled(c, TX, IY - 1, tw, TH, (0.88, 0.86, 0.82))
-        text(c, TX + 3, IY + 1, tag_txt, "IPAGothic", 6.5, GRAY)
-    TX += tw + 4
+text(c, INFO_X, IY, "300g", "IPAGothic", 9, GRAY)
+IY -= 14
+rect_filled(c, INFO_X, IY - 1, 2, 10, GOLD)
+text(c, INFO_X + 6, IY, "なぜこの食感は真似できないのか", "IPAMincho", 10, BLACK_BG)
 IY -= 14
 text(c, INFO_X, IY,
-     "黒く艶のある外観と大容量で陳列インパクト大。ブラックフライデー等の特売企画にも最適。",
-     "IPAGothic", 7, GRAY)
+     "日本にわずか３台の７トン圧力釜を２台保有。芯まで均一に戻しながら", "IPAGothic", 8, (0.35,0.32,0.28))
+IY -= 10
+text(c, INFO_X, IY,
+     "繊維を壊さず、しなやかさとリッチな噛み心地を実現しております。", "IPAGothic", 8, (0.35,0.32,0.28))
+IY -= 12
+TAGS_F = [("7トン圧力釜", True), ("設備差別化", True), ("たまり醤油", False), ("おつまみ・小鉢", False)]
+TX = INFO_X
+for tag_txt, bordered in TAGS_F:
+    c.setFont("IPAGothic", 7)
+    tw = c.stringWidth(tag_txt, "IPAGothic", 7) + 8
+    TH = 12
+    if bordered:
+        rect_stroked(c, TX, IY - 1, tw, TH, GOLD, line_width=0.8)
+        text(c, TX + 4, IY + 2, tag_txt, "IPAGothic", 7, GOLD)
+    else:
+        rect_filled(c, TX, IY - 1, tw, TH, (0.88, 0.86, 0.82))
+        text(c, TX + 4, IY + 2, tag_txt, "IPAGothic", 7, GRAY)
+    TX += tw + 5
 
-cur_y = CARD_Y - 8
+cur_y = CARD_Y - GAP
 
-# ── 2×2 grid of smaller product cards ─────────────────────────────────────────
-GRID_H       = 108
-GRID_CARD_W  = (CONTENT_W - 6) / 2
-GRID_CARD_H  = GRID_H / 2 - 3
+# ── 2×2 グリッド（残り4商品、高さを均等に埋める） ──────────────────────────
+GRID_CARD_H = GRID_ROW_H
 
 GRID_CARDS = [
-    # (accent_colour, label_text, num, name, weight, tagline, tags)
-    (
-        (0.55, 0.41, 0.08),
-        "極太メンマ 300g",
-        "NO.01", "極太メンマ", "300g",
-        "７トン圧力釜仕込み／リッチな噛み心地",
-        [("設備差別化", True), ("たまり醤油", False)],
-    ),
+    # (accent_col, num, name, weight, tagline, tags, has_kinpira_imgs, is_black_menma)
     (
         (0.36, 0.47, 0.18),
-        "きんぴらごぼう 585g",
         "NO.02", "きんぴらごぼう チルド", "585g",
         "皮付きごぼう／シャキシャキ食感",
         [("那須高原深層水", True), ("高リピート", False)],
+        True, False,
     ),
     (
         (0.18, 0.43, 0.29),
-        "高菜油炒め 300g",
         "NO.03", "高菜油炒め", "300g",
         "油炒め製法／香ばしさが違う",
         [("香ばし系", True), ("チャーハン・おにぎり", False)],
+        False, False,
     ),
     (
         (0.47, 0.31, 0.18),
-        "穂先メンマ 500g",
         "NO.04", "穂先メンマ", "500g",
         "上品食感／高付加価値メンマ",
         [("桃屋製造実績", True), ("前菜・冷奴", False)],
+        False, False,
+    ),
+    (
+        (0.10, 0.10, 0.10),
+        "NO.05", "味付けメンマ（黒）", "1200g",
+        "見た瞬間に手が伸びる視覚訴求商品",
+        [("インパクト", True), ("大容量", True), ("おつまみ", False)],
+        False, True,
     ),
 ]
 
 for idx, card_data in enumerate(GRID_CARDS):
-    accent_col, label, num, name, weight, tagline, tags = card_data
+    accent_col, num, name, weight, tagline, tags, has_kinpira, is_black = card_data
     col = idx % 2
     row = idx // 2
     gx = L_MARGIN + col * (GRID_CARD_W + 6)
-    gy = cur_y - (row + 1) * (GRID_CARD_H + 3) + 3
+    gy = cur_y - (row + 1) * (GRID_CARD_H + GAP) + GAP
 
-    # card bg
+    # カード背景
     rect_filled(c, gx, gy, GRID_CARD_W, GRID_CARD_H, (0.96, 0.96, 0.95))
     rect_stroked(c, gx, gy, GRID_CARD_W, GRID_CARD_H, (0.85, 0.82, 0.75), line_width=0.5)
 
-    # accent bar (left edge, 4px wide)
+    # アクセントバー（左端）
     ACCENT_W = 4
     rect_filled(c, gx, gy, ACCENT_W, GRID_CARD_H, accent_col)
 
-    # visual area
     VIS_X = gx + ACCENT_W
-    if idx == 1:
-        # きんぴらごぼう チルド — 上段：大1枚 / 下段：小3枚横並び
-        VIS_W = int(GRID_CARD_W * 0.52)
-        TOP_H  = int(GRID_CARD_H * 0.60)   # 上段の高さ
-        BOT_H  = GRID_CARD_H - TOP_H        # 下段の高さ
-        BOT_Y  = gy
-        TOP_Y  = gy + BOT_H
 
-        # 上段 — きんぴら.png を大きく1枚
+    if has_kinpira:
+        # きんぴらごぼう: 上段1枚 + 下段3枚
+        VIS_W = int(GRID_CARD_W * 0.48)
+        TOP_H = int(GRID_CARD_H * 0.60)
+        BOT_H = GRID_CARD_H - TOP_H
+        BOT_Y = gy
+        TOP_Y = gy + BOT_H
         c.drawImage("/home/user/JIN-WORK/今日のワーク/きんぴら.png",
-                    VIS_X, TOP_Y, VIS_W, TOP_H,
-                    preserveAspectRatio=False, mask='auto')
-
-        # 上下境界線
-        c.setStrokeColorRGB(1, 1, 1)
-        c.setLineWidth(0.7)
+                    VIS_X, TOP_Y, VIS_W, TOP_H, preserveAspectRatio=False, mask='auto')
+        c.setStrokeColorRGB(1, 1, 1); c.setLineWidth(0.7)
         c.line(VIS_X, TOP_Y, VIS_X + VIS_W, TOP_Y)
-
-        # 下段 — 3枚横並び（きんぴらキンパ2 / のり弁 / 肉巻き）
-        SUB_IMGS = [
+        for i, img_path in enumerate([
             "/home/user/JIN-WORK/今日のワーク/きんぴらキンパ2.png",
             "/home/user/JIN-WORK/今日のワーク/きんぴらのり弁.png",
             "/home/user/JIN-WORK/今日のワーク/きんぴら肉巻き.png",
-        ]
-        sub_w = VIS_W / len(SUB_IMGS)
-        for i, img_path in enumerate(SUB_IMGS):
-            c.drawImage(img_path, VIS_X + i * sub_w, BOT_Y, sub_w, BOT_H,
+        ]):
+            sw = VIS_W / 3
+            c.drawImage(img_path, VIS_X + i * sw, BOT_Y, sw, BOT_H,
                         preserveAspectRatio=False, mask='auto')
             if i > 0:
-                c.setStrokeColorRGB(1, 1, 1)
-                c.setLineWidth(0.5)
-                c.line(VIS_X + i * sub_w, BOT_Y, VIS_X + i * sub_w, BOT_Y + BOT_H)
+                c.setStrokeColorRGB(1,1,1); c.setLineWidth(0.5)
+                c.line(VIS_X + i*sw, BOT_Y, VIS_X + i*sw, BOT_Y + BOT_H)
+    elif is_black:
+        # 黒メンマ: 黒背景 + ゴールドテキスト
+        VIS_W = int(GRID_CARD_W * 0.35)
+        rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.05, 0.04, 0.04))
+        text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 + 4,
+                      "味付けメンマ", "IPAMincho", 7.5, GOLD)
+        text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 - 5,
+                      "（黒）", "IPAMincho", 7.5, GOLD)
+        BADGE2_H = 12
+        rect_filled(c, VIS_X, gy, VIS_W, BADGE2_H, GOLD)
+        text_centered(c, VIS_X + VIS_W/2, gy + 3, "IMPACT", "IPAGothic", 7, BLACK_BG)
     else:
         VIS_W = int(GRID_CARD_W * 0.35)
         rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.12, 0.11, 0.10))
         text_centered(c, VIS_X + VIS_W/2, gy + GRID_CARD_H/2 - 3,
-                      label, "IPAGothic", 6, GOLD)
+                      name.replace(" チルド",""), "IPAGothic", 6.5, GOLD)
 
-    # info area
+    # 情報エリア
     IX = VIS_X + VIS_W + 5
-    IIY = gy + GRID_CARD_H - 9
-    text(c, IX, IIY, num, "IPAGothic", 6.5, GOLD)
+    IIY = gy + GRID_CARD_H - 10
+    text(c, IX, IIY, num, "IPAGothic", 7, GOLD)
+    IIY -= 13
+    text(c, IX, IIY, name, "IPAMincho", 10, BLACK_BG)
+    IIY -= 10
+    text(c, IX, IIY, weight, "IPAGothic", 7.5, GRAY)
     IIY -= 11
-    text(c, IX, IIY, name, "IPAMincho", 9.5, BLACK_BG)
-    IIY -= 9
-    text(c, IX, IIY, weight, "IPAGothic", 7, GRAY)
-    IIY -= 9
-    # tagline with gold bar
-    rect_filled(c, IX, IIY - 1, 2, 7, GOLD)
-    text(c, IX + 4, IIY, tagline, "IPAGothic", 7, BLACK_BG)
-    IIY -= 11
-    # tags
+    rect_filled(c, IX, IIY - 1, 2, 8, GOLD)
+    text(c, IX + 5, IIY, tagline, "IPAGothic", 7.5, BLACK_BG)
+    IIY -= 13
     TX2 = IX
     for tag_txt, bordered in tags:
-        c.setFont("IPAGothic", 6)
-        tw2 = c.stringWidth(tag_txt, "IPAGothic", 6) + 5
-        TH2 = 9
+        c.setFont("IPAGothic", 6.5)
+        tw2 = c.stringWidth(tag_txt, "IPAGothic", 6.5) + 6
+        TH2 = 10
         if bordered:
             rect_stroked(c, TX2, IIY - 1, tw2, TH2, GOLD, line_width=0.6)
-            text(c, TX2 + 2.5, IIY + 0.5, tag_txt, "IPAGothic", 6, GOLD)
+            text(c, TX2 + 3, IIY + 1, tag_txt, "IPAGothic", 6.5, GOLD)
         else:
             rect_filled(c, TX2, IIY - 1, tw2, TH2, (0.88, 0.86, 0.82))
-            text(c, TX2 + 2.5, IIY + 0.5, tag_txt, "IPAGothic", 6, GRAY)
+            text(c, TX2 + 3, IIY + 1, tag_txt, "IPAGothic", 6.5, GRAY)
+        TX2 += tw2 + 4
         TX2 += tw2 + 3
 
 # ══════════════════════════════════════════════════════════════════════════════
