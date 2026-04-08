@@ -294,24 +294,37 @@ for idx, card_data in enumerate(GRID_CARDS):
     # visual area
     VIS_X = gx + ACCENT_W
     if idx == 1:
-        # きんぴらごぼう チルド — 4枚の画像を横並びで表示（エリアを52%に拡張）
+        # きんぴらごぼう チルド — 上段：大1枚 / 下段：小3枚横並び
         VIS_W = int(GRID_CARD_W * 0.52)
-        KINPIRA_IMGS = [
+        TOP_H  = int(GRID_CARD_H * 0.60)   # 上段の高さ
+        BOT_H  = GRID_CARD_H - TOP_H        # 下段の高さ
+        BOT_Y  = gy
+        TOP_Y  = gy + BOT_H
+
+        # 上段 — きんぴら.png を大きく1枚
+        c.drawImage("/home/user/JIN-WORK/今日のワーク/きんぴら.png",
+                    VIS_X, TOP_Y, VIS_W, TOP_H,
+                    preserveAspectRatio=False, mask='auto')
+
+        # 上下境界線
+        c.setStrokeColorRGB(1, 1, 1)
+        c.setLineWidth(0.7)
+        c.line(VIS_X, TOP_Y, VIS_X + VIS_W, TOP_Y)
+
+        # 下段 — 3枚横並び（きんぴらキンパ2 / のり弁 / 肉巻き）
+        SUB_IMGS = [
             "/home/user/JIN-WORK/今日のワーク/きんぴらキンパ2.png",
-            "/home/user/JIN-WORK/今日のワーク/きんぴら.png",
             "/home/user/JIN-WORK/今日のワーク/きんぴらのり弁.png",
             "/home/user/JIN-WORK/今日のワーク/きんぴら肉巻き.png",
         ]
-        each_w = VIS_W / len(KINPIRA_IMGS)
-        for i, img_path in enumerate(KINPIRA_IMGS):
-            c.drawImage(img_path, VIS_X + i * each_w, gy, each_w, GRID_CARD_H,
+        sub_w = VIS_W / len(SUB_IMGS)
+        for i, img_path in enumerate(SUB_IMGS):
+            c.drawImage(img_path, VIS_X + i * sub_w, BOT_Y, sub_w, BOT_H,
                         preserveAspectRatio=False, mask='auto')
-            # 画像間に細い区切り線
             if i > 0:
-                hline(c, VIS_X + i * each_w, gy, 0, (1, 1, 1), lw=0.5)
                 c.setStrokeColorRGB(1, 1, 1)
                 c.setLineWidth(0.5)
-                c.line(VIS_X + i * each_w, gy, VIS_X + i * each_w, gy + GRID_CARD_H)
+                c.line(VIS_X + i * sub_w, BOT_Y, VIS_X + i * sub_w, BOT_Y + BOT_H)
     else:
         VIS_W = int(GRID_CARD_W * 0.35)
         rect_filled(c, VIS_X, gy, VIS_W, GRID_CARD_H, (0.12, 0.11, 0.10))
