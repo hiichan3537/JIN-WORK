@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アーベストフーズ株式会社 広告 - リクエ掲載用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --gold: #C4963A;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --black: #0D0D0D;
+    --near-black: #1A1A1A;
+    --white: #FAFAF7;
+    --off-white: #F3EFE8;
+    --gray-light: #E8E3D8;
+    --gray: #8A8070;
+  }
+
+  body {
+    background: #E0D8C8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .ad-page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+  }
+
+  /* ===== DECORATIVE ELEMENTS ===== */
+  .corner-ornament {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    z-index: 10;
+  }
+  .corner-tl { top: 10px; left: 10px; }
+  .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+
+  .corner-ornament::before,
+  .corner-ornament::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .corner-ornament::before {
+    width: 28px; height: 2px;
+    top: 0; left: 0;
+  }
+  .corner-ornament::after {
+    width: 2px; height: 28px;
+    top: 0; left: 0;
+  }
+
+  /* ===== TOP SECTION ===== */
+  .top-section {
+    background: var(--near-black);
+    padding: 22px 28px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .top-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  }
+
+  .top-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), var(--gold), var(--gold-dark), transparent);
+  }
+
+  /* Background texture */
+  .top-bg-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        var(--gold) 0px, var(--gold) 1px,
+        transparent 1px, transparent 20px
+      );
+  }
+
+  .media-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.85;
+  }
+
+  .company-name-top {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .main-copy {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .main-copy .line1 {
+    display: block;
+    font-size: 13px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .main-copy .line2 {
+    display: block;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+
+  .main-copy .line2 em {
+    font-style: normal;
+    color: var(--gold-light);
+    font-size: 30px;
+  }
+
+  .sub-copy {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    margin-top: 10px;
+    font-weight: 300;
+    max-width: 420px;
+  }
+
+  .top-tagline {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 14px;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+  }
+
+  /* ===== GOLD DIVIDER ===== */
+  .gold-divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+    position: relative;
+  }
+  .gold-divider::after {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gold);
+    font-size: 10px;
+    background: var(--white);
+    padding: 0 6px;
+    line-height: 1;
+  }
+
+  /* ===== DIFF POINTS STRIP ===== */
+  .diff-strip {
+    background: var(--off-white);
+    border-bottom: 2px solid var(--gray-light);
+    padding: 10px 28px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .diff-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+  }
+
+  .diff-item:not(:last-child) {
+    border-right: 1px solid var(--gray-light);
+    padding-right: 8px;
+  }
+
+  .diff-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--near-black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .diff-text strong {
+    display: block;
+    font-size: 7.5px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+
+  .diff-text span {
+    font-size: 6.5px;
+    color: var(--gray);
+    line-height: 1.4;
+  }
+
+  /* ===== MIDDLE SECTION ===== */
+  .middle-section {
+    padding: 14px 22px 10px;
+    background: var(--white);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .section-header .label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--gold-dark);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .section-header .title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--near-black);
+    margin-top: 3px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== PRODUCTS GRID ===== */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 9px;
+  }
+
+  /* 黒メンマ - featured (spans full row, top) */
+  .product-card {
+    border: 1px solid var(--gray-light);
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .product-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    min-height: 100px;
+  }
+
+  .product-card.featured::before {
+    background: var(--near-black);
+  }
+
+  .product-card.menma-thick::before { background: #8B6914; }
+  .product-card.kinpira::before { background: #5C7A2E; }
+  .product-card.takana::before { background: #2E6E4A; }
+  .product-card.hosen::before { background: #7A4E2E; }
+
+  .product-visual {
+    background: var(--near-black);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .product-card.featured .product-visual {
+    min-height: 110px;
+    background: linear-gradient(135deg, #0D0D0D, #2A2A2A);
+  }
+
+  .product-card:not(.featured) .product-visual {
+    height: 70px;
+  }
+
+  /* Placeholder visuals with SVG-style content */
+  .visual-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .visual-emoji {
+    font-size: 32px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+
+  .product-card.featured .visual-emoji {
+    font-size: 44px;
+  }
+
+  .visual-label {
+    font-size: 7px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* Impact badge for black menma */
+  .impact-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--gold);
+    color: var(--near-black);
+    font-size: 6.5px;
+    font-weight: 700;
+    padding: 3px 7px;
+    letter-spacing: 1px;
+  }
+
+  .product-info {
+    padding: 10px 12px 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .product-number {
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+
+  .product-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--near-black);
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .product-card:not(.featured) .product-name {
+    font-size: 11.5px;
+  }
+
+  .product-weight {
+    font-size: 8px;
+    color: var(--gray);
+    margin-bottom: 7px;
+    font-weight: 400;
+  }
+
+  .product-tagline {
+    font-size: 9px;
+    color: var(--near-black);
+    font-weight: 700;
+    border-left: 2px solid var(--gold);
+    padding-left: 7px;
+    margin-bottom: 7px;
+    line-height: 1.5;
+  }
+
+  .product-card:not(.featured) .product-tagline {
+    font-size: 8px;
+    margin-bottom: 5px;
+  }
+
+  .product-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-bottom: 7px;
+  }
+
+  .feature-tag {
+    font-size: 6.5px;
+    padding: 2px 6px;
+    border: 1px solid var(--gray-light);
+    color: var(--gray);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .feature-tag.gold {
+    border-color: var(--gold);
+    color: var(--gold-dark);
+    background: rgba(196,150,58,0.07);
+    font-weight: 600;
+  }
+
+  .product-use {
+    font-size: 7.5px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  .product-use strong {
+    color: var(--near-black);
+    font-weight: 600;
+  }
+
+  /* Small product cards */
+  .product-card:not(.featured) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:not(.featured) .product-info {
+    padding: 8px 10px 8px 12px;
+    flex: 1;
+  }
+
+  /* ===== KEY POINTS BAND ===== */
+  .key-points-band {
+    background: var(--near-black);
+    margin: 12px 0 0;
+    padding: 12px 22px;
+    position: relative;
+  }
+
+  .key-points-band::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .kp-label {
+    font-size: 7px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .kp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .kp-item {
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid rgba(196,150,58,0.3);
+    background: rgba(196,150,58,0.05);
+  }
+
+  .kp-icon {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .kp-title {
+    font-size: 7.5px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .kp-desc {
+    font-size: 6px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.4;
+  }
+
+  /* ===== BOTTOM SECTION ===== */
+  .bottom-section {
+    background: var(--off-white);
+    border-top: 3px solid var(--near-black);
+    padding: 14px 22px;
+    position: relative;
+  }
+
+  .bottom-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+  }
+
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .company-block {}
+
+  .company-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--near-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .logo-mark::after {
+    content: 'A';
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--gold);
+  }
+
+  .logo-mark::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 1px solid var(--gold);
+    opacity: 0.4;
+  }
+
+  .company-name-bottom {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--near-black);
+    line-height: 1.3;
+  }
+
+  .company-name-bottom small {
+    display: block;
+    font-size: 8px;
+    font-weight: 400;
+    color: var(--gray);
+    margin-top: 1px;
+    font-family: 'Noto Sans JP', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .company-desc {
+    font-size: 7.5px;
+    color: #4A4540;
+    line-height: 1.8;
+    border-left: 2px solid var(--gold);
+    padding-left: 8px;
+  }
+
+  .cert-block {}
+
+  .cert-title {
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: var(--gold-dark);
+    font-weight: 700;
+    margin-bottom: 7px;
+    border-bottom: 1px solid var(--gray-light);
+    padding-bottom: 4px;
+  }
+
+  .cert-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .cert-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    background: var(--white);
+    border: 1px solid var(--gray-light);
+  }
+
+  .cert-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--near-black);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .cert-text strong {
+    display: block;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--near-black);
+  }
+
+  .cert-text span {
+    font-size: 6.5px;
+    color: var(--gray);
+  }
+
+  .cta-strip {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--near-black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-column: 1 / -1;
+  }
+
+  .cta-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+
+  .cta-text span {
+    color: var(--gold-light);
+  }
+
+  .cta-contact {
+    text-align: right;
+  }
+
+  .cta-contact strong {
+    display: block;
+    font-size: 7px;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  .cta-contact span {
+    font-size: 8px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: none; padding: 0; }
+    .ad-page { box-shadow: none; width: 210mm; height: 297mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ad-page">
+
+  <!-- Corner ornaments -->
+  <div class="corner-ornament corner-tl"></div>
+  <div class="corner-ornament corner-tr"></div>
+
+  <!-- ========== TOP SECTION ========== -->
+  <div class="top-section">
+    <div class="top-bg-pattern"></div>
+    <div class="media-label">REQUE 2026 — ARBEST FOODS SPECIAL FEATURE</div>
+    <div class="company-name-top">アーベストフーズ株式会社</div>
+
+    <div class="main-copy">
+      <span class="line1">価格ではなく、品質価値で選ばれる設計</span>
+      <span class="line2">売場で差がつく、<em>理由のある</em>5品</span>
+    </div>
+
+    <p class="sub-copy">
+      素材・製法・食感に妥協しない和惣菜・具材メーカーが、バイヤーの信頼に応える5アイテムをご提案。
+      「なぜ売れるのか」が一目で伝わる商品力で、あなたの売場を差別化します。
+    </p>
+
+    <div class="top-tagline">OEM・PB・業務用 ─ 幅広い製造実績</div>
+  </div>
+
+  <div class="gold-divider"></div>
+
+  <!-- ========== DIFF POINTS STRIP ========== -->
+  <div class="diff-strip">
+    <div class="diff-item">
+      <div class="diff-icon">⚙</div>
+      <div class="diff-text">
+        <strong>日本に3台のみ</strong>
+        <span>7トン圧力釜を2台保有<br>独自の戻し製法を実現</span>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-icon">💧</div>
+      <div class="diff-text">
+        <strong>那須高原深層水使用</strong>
+        <span>水の違いが旨味の違い<br>独自のものづくり</span>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-icon">🏭</div>
+      <div class="diff-text">
+        <strong>FSSC22000取得工場</strong>
+        <span>徹底した品質管理体制<br>安心・安全の国内製造</span>
+      </div>
+    </div>
+    <div class="diff-item">
+      <div class="diff-icon">🍜</div>
+      <div class="diff-text">
+        <strong>食感設計重視</strong>
+        <span>素材感を活かす製法<br>満足感で選ばれる理由</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MIDDLE SECTION ========== -->
+  <div class="middle-section">
+
+    <div class="section-header">
+      <div class="label">FEATURED LINEUP — 今月の注力5品</div>
+      <div class="title">どの商品も、"置いた理由"が語れる</div>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- ① 味付けメンマ（黒）FEATURED -->
+      <div class="product-card featured">
+        <div class="product-visual">
+          <div class="visual-placeholder">
+            <span class="visual-emoji">🍜</span>
+            <span class="visual-label">BLACK MENMA 1200g</span>
+          </div>
+          <div class="impact-badge">★ IMPACT ITEM</div>
+        </div>
+        <div class="product-info">
+          <div class="product-number">NO.05 — 注目商材</div>
+          <div class="product-name">味付けメンマ（黒）</div>
+          <div class="product-weight">1200g ／ 業務・まとめ買い向け</div>
+          <div class="product-tagline">
+            見た瞬間に手が伸びる──<br>
+            "視覚で売れる"インパクト商品
+          </div>
+          <div class="product-features">
+            <span class="feature-tag gold">圧倒的インパクト</span>
+            <span class="feature-tag gold">大容量</span>
+            <span class="feature-tag">ラーメントッピング</span>
+            <span class="feature-tag">おつまみ</span>
+            <span class="feature-tag">イベント企画対応</span>
+          </div>
+          <div class="product-use">
+            <strong>▶ バイヤーズポイント：</strong>黒く艶のある外観と大容量で陳列インパクト大。ブラックフライデー等の特売企画にも最適。
+          </div>
+        </div>
+      </div>
+
+      <!-- ② 極太メンマ -->
+      <div class="product-card menma-thick">
+        <div class="product-visual">
+          <div class="visual-placeholder">
+            <span class="visual-emoji" style="font-size:26px">🎋</span>
+            <span class="visual-label">GOKUFUTO MENMA 300g</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-number">NO.01</div>
+          <div class="product-name">極太メンマ</div>
+          <div class="product-weight">300g</div>
+          <div class="product-tagline">7トン圧力釜仕込み<br>リッチな噛み心地</div>
+          <div class="product-features">
+            <span class="feature-tag gold">設備差別化</span>
+            <span class="feature-tag">たまり醤油</span>
+            <span class="feature-tag">おつまみ・小鉢</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ きんぴらごぼう -->
+      <div class="product-card kinpira">
+        <div class="product-visual">
+          <div class="visual-placeholder">
+            <span class="visual-emoji" style="font-size:26px">🥢</span>
+            <span class="visual-label">KINPIRA GOBO 585g</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-number">NO.02</div>
+          <div class="product-name">きんぴらごぼう</div>
+          <div class="product-weight">チルド 585g</div>
+          <div class="product-tagline">皮付きごぼう<br>シャキシャキ食感</div>
+          <div class="product-features">
+            <span class="feature-tag gold">那須高原深層水</span>
+            <span class="feature-tag">高リピート</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ 高菜油炒め -->
+      <div class="product-card takana">
+        <div class="product-visual">
+          <div class="visual-placeholder">
+            <span class="visual-emoji" style="font-size:26px">🍚</span>
+            <span class="visual-label">TAKANA ITAME 300g</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-number">NO.03</div>
+          <div class="product-name">高菜油炒め</div>
+          <div class="product-weight">300g</div>
+          <div class="product-tagline">油炒め製法<br>香ばしさが違う</div>
+          <div class="product-features">
+            <span class="feature-tag gold">香ばし系</span>
+            <span class="feature-tag">チャーハン・おにぎり</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ 穂先メンマ -->
+      <div class="product-card hosen">
+        <div class="product-visual">
+          <div class="visual-placeholder">
+            <span class="visual-emoji" style="font-size:26px">✨</span>
+            <span class="visual-label">HOSEN MENMA 500g</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-number">NO.04</div>
+          <div class="product-name">穂先メンマ</div>
+          <div class="product-weight">500g</div>
+          <div class="product-tagline">上品食感<br>メンマ好き向け高付加価値</div>
+          <div class="product-features">
+            <span class="feature-tag gold">桃屋製造実績</span>
+            <span class="feature-tag">前菜・冷奴</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+
+    <!-- Key Points Band -->
+    <div class="key-points-band">
+      <div class="kp-label">WHY ARBEST — 選ばれる4つの理由</div>
+      <div class="kp-grid">
+        <div class="kp-item">
+          <span class="kp-icon">⚙️</span>
+          <div class="kp-title">7トン圧力釜<br>日本に3台</div>
+          <div class="kp-desc">2台保有の設備力が<br>唯一無二の食感を生む</div>
+        </div>
+        <div class="kp-item">
+          <span class="kp-icon">💧</span>
+          <div class="kp-title">那須高原<br>深層水使用</div>
+          <div class="kp-desc">水の違いが味の違い<br>後味のまとまりに直結</div>
+        </div>
+        <div class="kp-item">
+          <span class="kp-icon">🔬</span>
+          <div class="kp-title">FSSC22000<br>認証工場</div>
+          <div class="kp-desc">国際食品安全規格取得<br>品質保証の信頼基盤</div>
+        </div>
+        <div class="kp-item">
+          <span class="kp-icon">🏆</span>
+          <div class="kp-title">OEM・PB<br>多数実績</div>
+          <div class="kp-desc">大手製品の製造実績<br>確かな技術と信頼</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /middle-section -->
+
+  <!-- ========== BOTTOM SECTION ========== -->
+  <div class="bottom-section">
+    <div class="bottom-grid">
+
+      <div class="company-block">
+        <div class="company-logo-area">
+          <div class="logo-mark"></div>
+          <div class="company-name-bottom">
+            アーベストフーズ株式会社
+            <small>ARBEST FOODS Co., Ltd.</small>
+          </div>
+        </div>
+        <div class="company-desc">
+          素材・製法・食感にこだわる和惣菜・具材メーカー。<br>
+          業務用・市販用・PB・OEMまで幅広い製造実績を有し、<br>
+          高品質領域での差別化を強みとしております。<br>
+          <strong>『価格訴求』ではなく『満足感・品質価値』で選ばれる</strong>設計思想。
+        </div>
+      </div>
+
+      <div class="cert-block">
+        <div class="cert-title">QUALITY & CERTIFICATION</div>
+        <div class="cert-badges">
+          <div class="cert-badge">
+            <div class="cert-icon">🛡</div>
+            <div class="cert-text">
+              <strong>FSSC22000認証取得工場</strong>
+              <span>国際食品安全マネジメントシステム</span>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="cert-icon">🇯🇵</div>
+            <div class="cert-text">
+              <strong>国内製造・国産素材採用</strong>
+              <span>那須高原深層水使用／安心の自社工場</span>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="cert-icon">📋</div>
+            <div class="cert-text">
+              <strong>OEM・PB対応可能</strong>
+              <span>業務用〜市販用まで柔軟に対応</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-strip">
+        <div class="cta-text">
+          お仕入れ・サンプルのご相談は<span>お気軽にお問い合わせください</span>
+        </div>
+        <div class="cta-contact">
+          <strong>CONTACT / お問い合わせ</strong>
+          <span>アーベストフーズ株式会社 営業部</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /bottom-section -->
+
+</div><!-- /ad-page -->
+
+</body>
+</html>
